@@ -68,7 +68,7 @@ with DAG(
         "retries": 0,
         #"retry_delay": timedelta(minutes=1),
         'owner': 'airflow',
-        'email': ['fatimaidris388@gmail.com'],  # email(s) to notify
+        'email': ['notified@email.com'],  # email(s) to notify
         'email_on_failure': False,            # send email when a task fails
         'email_on_retry': False,
         'on_failure_callback': notify_failure,
@@ -109,7 +109,7 @@ with DAG(
         python_callable=lambda: load_pageviews(),
     )
 
-    # Task 5: Run simple analysis
+    # Task 5: Run the analysis
     simple_analysis = SQLExecuteQueryOperator(
         task_id='simple_analysis',
         conn_id="postgres_conn",
@@ -131,8 +131,8 @@ with DAG(
 
     send_results = EmailOperator(
     task_id='send_results',
-    to='abdmlk.911@gmail.com',
-    from_email='fatimaidris388@gmail.com',
+    to='reciepient@email.com',
+    from_email='sender@email.com',
     subject='Pageviews DAG Completed Successfully',
     html_content="{{ ti.xcom_pull(task_ids='format_html', key='formatted_html') }}",
     conn_id='smtp_conn',
